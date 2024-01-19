@@ -125,6 +125,8 @@ class GPT3Translator(CommonTranslator):
         translations = []
         self.logger.debug(f'Temperature: {self.temperature}, TopP: {self.top_p}')
 
+        queries = list(map(convert_fullwidth_to_halfwidth, queries))
+
         for prompt, query_size in self._assemble_prompts(from_lang, to_lang, queries):
             self.logger.debug('-- GPT Prompt --\n' + self._format_prompt_log(to_lang, prompt))
 
@@ -269,12 +271,18 @@ class sakuraTranslator(GPT3Translator):
             messages.insert(1, {'role': 'user', 'content': self.chat_sample[to_lang][0]})
             messages.insert(2, {'role': 'assistant', 'content': self.chat_sample[to_lang][1]})
 
+        extra_query = {
+            'do_sample': False,
+            'num_beams': 1,
+            'repetition_penalty': 1.0,
+        }
         response = await openai.ChatCompletion.acreate(
-            model='gpt-3.5-turbo-0613',
+            model="sukinishiro",
             messages=messages,
             max_tokens=self._MAX_TOKENS // 2,
             temperature=self.temperature,
             top_p=self.top_p,
+            frequency_penalty=0.0,
         )
 
         self.token_count += response.usage['total_tokens']
@@ -285,3 +293,13 @@ class sakuraTranslator(GPT3Translator):
 
         # If no response with text is found, return the first response's content (which may be empty)
         return response.choices[0].message.content
+
+def convert_fullwidth_to_halfwidth(input_str):
+    result = ''
+    for char in input_str:
+        # 如果字符是全角数字，进行替换
+        if '０' <= char <= '９':
+            result += chr(ord(char) - ord('０') + ord('0'))
+        else:
+            result += char
+    return result
