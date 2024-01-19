@@ -263,18 +263,12 @@ class sakuraTranslator(GPT3Translator):
             messages.insert(1, {'role': 'user', 'content': self.chat_sample[to_lang][0]})
             messages.insert(2, {'role': 'assistant', 'content': self.chat_sample[to_lang][1]})
 
-        extra_query = {
-            'do_sample': False,
-            'num_beams': 1,
-            'repetition_penalty': 1.0,
-        }
         response = await openai.ChatCompletion.acreate(
             model="sukinishiro",
             messages=messages,
             max_tokens=self._MAX_TOKENS // 2,
             temperature=self.temperature,
             top_p=self.top_p,
-            frequency_penalty=0.0,
         )
 
         self.token_count += response.usage['total_tokens']
