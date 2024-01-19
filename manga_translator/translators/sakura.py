@@ -208,15 +208,7 @@ class sakuraTranslator(GPT3Translator):
 
     # Token: 57+
     _CHAT_SYSTEM_TEMPLATE = (
-        'You are a professional translation engine, '
-        'please translate the story into a colloquial, '
-        'elegant and fluent content, '
-        'without referencing machine translations. '
-        'You must only translate the story, '
-        'never interpret it. '
-        'If there is any issue in the text, '
-        'output it as is.\n'
-        'Translate to {to_lang}.'
+        '你是一个轻小说翻译模型，可以流畅通顺地以日本轻小说的风格将若干日文依次翻译成{to_lang}，并联系上下文正确使用人称代词，不擅自添加原文中没有的代词。\n你会得到多个带有标号的日语文本, 你需要翻译并返回对应的结果, 翻译结果前也应该带有同样的标号, 标号的形式是`<|xxx|>`.'
     )
     _CHAT_SAMPLE = {
         'Simplified Chinese': [ # Token: 88 + 84
