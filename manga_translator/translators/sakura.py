@@ -43,7 +43,7 @@ class GPT3Translator(CommonTranslator):
     }
     _INVALID_REPEAT_COUNT = 2 # repeat up to 2 times if "invalid" translation was detected
     _MAX_REQUESTS_PER_MINUTE = 20
-    _TIMEOUT = 40 # Seconds to wait for a response from the server before retrying
+    _TIMEOUT = 60 * 3 # Seconds to wait for a response from the server before retrying
     _RETRY_ATTEMPTS = 3 # Number of times to retry an errored request before giving up
     _TIMEOUT_RETRY_ATTEMPTS = 3 # Number of times to retry a timed out request before giving up
     _RATELIMIT_RETRY_ATTEMPTS = 3 # Number of times to retry a ratelimited request before giving up
