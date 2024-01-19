@@ -11,6 +11,7 @@ from .chatgpt import GPT3Translator, GPT35TurboTranslator, GPT4Translator
 from .nllb import NLLBTranslator, NLLBBigTranslator
 from .sugoi import JparacrawlTranslator, JparacrawlBigTranslator, SugoiTranslator
 from .m2m100 import M2M100Translator, M2M100BigTranslator
+from .sakura import sakuraTranslator
 from .selective import SelectiveOfflineTranslator, prepare as prepare_selective_translator
 from .none import NoneTranslator
 from .original import OriginalTranslator
@@ -24,6 +25,7 @@ OFFLINE_TRANSLATORS = {
     'jparacrawl_big': JparacrawlBigTranslator,
     'm2m100': M2M100Translator,
     'm2m100_big': M2M100BigTranslator,
+    'sakura': sakuraTranslator,
 }
 
 TRANSLATORS = {
@@ -71,7 +73,7 @@ class TranslatorChain():
                 raise ValueError(f'Invalid choice: %s (choose from %s)' % (lang, ', '.join(map(repr, VALID_LANGUAGES))))
             self.chain.append((trans, lang))
         self.translators, self.langs = list(zip(*self.chain))
-    
+
     def has_offline(self) -> bool:
         """
         Returns True if the chain contains offline translators.
