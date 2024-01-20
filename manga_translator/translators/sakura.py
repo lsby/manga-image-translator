@@ -41,7 +41,7 @@ class GPT3Translator(CommonTranslator):
         'THA': 'Thai',
         'IND': 'Indonesian'
     }
-    _INVALID_REPEAT_COUNT = 2 # repeat up to 2 times if "invalid" translation was detected
+    _INVALID_REPEAT_COUNT = 10 # repeat up to 2 times if "invalid" translation was detected
     _MAX_REQUESTS_PER_MINUTE = 20
     _TIMEOUT = 60 * 3 # Seconds to wait for a response from the server before retrying
     _RETRY_ATTEMPTS = 3 # Number of times to retry an errored request before giving up
@@ -208,7 +208,7 @@ class sakuraTranslator(GPT3Translator):
 
     # Token: 57+
     _CHAT_SYSTEM_TEMPLATE = (
-        '你是一个轻小说翻译模型，可以流畅通顺地以日本轻小说的风格将若干日文依次翻译成{to_lang}，并联系上下文正确使用人称代词，不擅自添加原文中没有的代词。\n你会得到多个带有标号的日语文本, 你需要翻译并返回对应的结果, 翻译结果前也应该带有同样的标号, 标号的形式是`<|xxx|>`.'
+        '你是一个轻小说翻译模型，可以流畅通顺地以日本轻小说的风格将若干日文依次翻译成{to_lang}，并联系上下文正确使用人称代词，不擅自添加原文中没有的代词。\nif it\'s already in {to_lang} or looks like gibberish you have to output it as it is instead.\n注意, 每一句译文前都必须带有`<|数字|>`形式的标号.'
     )
     _CHAT_SAMPLE = {
         'Simplified Chinese': [ # Token: 88 + 84
