@@ -55,9 +55,12 @@ class JPGFormat(ExportFormat):
     SUPPORTED_FORMATS = ['jpg', 'jpeg']
 
     def _save(self, result: Image.Image, dest: str, ctx: Context):
-        result = result.convert('RGB')
-        # Certain versions of PIL only support JPEG but not JPG
-        result.save(dest, quality=ctx.save_quality, format='JPEG')
+        try:
+            result = result.convert('RGB')
+            # Certain versions of PIL only support JPEG but not JPG
+            result.save(dest, quality=ctx.save_quality, format='JPEG')
+        except Exception as e:
+            print('图片保存失败')
 
 class GIMPFormat(ExportFormat):
     SUPPORTED_FORMATS = ['xcf', 'psd', 'pdf']

@@ -368,7 +368,12 @@ class MangaTranslator():
         else:
             ctx.upscaled = ctx.img_colorized
 
-        ctx.img_rgb, ctx.img_alpha = load_image(ctx.upscaled)
+        try:
+            ctx.img_rgb, ctx.img_alpha = load_image(ctx.upscaled)
+        except Exception as e:
+            print('读取图片失败')
+            ctx.result = ctx.upscaled
+            return ctx
 
         # -- Detection
         await self._report_progress('detection')
