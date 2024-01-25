@@ -29,11 +29,11 @@ async def 翻译(input_text):
         max_tokens=2048,
         temperature=0.1, # 温度, 控制梯度算法的求解随机性, 越大结果越多样, 默认 1
         top_p=0.3, # 选择候选词的范围, 越大结果越多样, 默认 1
-        frequency_penalty=0, # 高频词汇惩罚, 越大结果用词越多样, 默认 0
+        frequency_penalty=0.3, # 高频词汇惩罚, 越大结果用词越多样, 默认 0
         extra_query={
             'do_sample': False, # 是否使用文本采样, 打开结果会更随机, 默认 True
             'num_beams': 1, # 搜索束宽度, 越大越能生成一致性的结果, 但会牺牲多样性, 默认 1
-            'repetition_penalty': 0, # 重复词惩罚, 越大结果用词越多样, 默认 1
+            'repetition_penalty': 0.3, # 重复词惩罚, 越大结果用词越多样, 默认 1
         },
     )
 
