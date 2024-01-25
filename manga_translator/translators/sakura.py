@@ -16,7 +16,7 @@ async def 翻译(input_text):
             { "role": "assistant", "content": "了解,我会尽力遵循你的要求.翻译时我会联系上下文,使用正确使用人称代词,不擅自添加主语和代词." },
 
             { "role": "user", "content": "ラーメンを食べます" },
-            { "role": "assistant", "content": "我吃拉面" },
+            { "role": "assistant", "content": "吃拉面" },
 
             { "role": "user", "content": "勉強します" },
             { "role": "assistant", "content": "在学习" },
