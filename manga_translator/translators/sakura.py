@@ -55,8 +55,6 @@ class sakuraTranslator(CommonTranslator):
         return False
 
     async def _translate(self, from_lang: str, to_lang: str, queries: List[str], max_retries: int = 3) -> List[str]:
-        max_retries = 10
-
         translated_results = []
         for query in queries:
             query = convert_fullwidth_to_halfwidth(query)
