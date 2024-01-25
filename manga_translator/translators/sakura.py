@@ -21,14 +21,7 @@ async def 翻译(input_text):
         ],
         temperature=0.1,
         top_p=0.3,
-        max_tokens=512,
-        frequency_penalty=0.0,
-        seed=-1,
-        extra_query={
-            'do_sample': False,
-            'num_beams': 1,
-            'repetition_penalty': 1.0,
-        },
+        max_tokens=2048,
     )
 
     for choice in response.choices:
