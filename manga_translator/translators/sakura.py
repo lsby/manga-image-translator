@@ -12,16 +12,22 @@ async def 翻译(input_text):
         messages=[
             {
                 "role": "system",
-                "content": "你是一个轻小说翻译模型，可以流畅通顺地以日本轻小说的风格将日文翻译成简体中文，并联系上下文正确使用人称代词，不擅自添加原文中没有的代词。"
+                "content": "你是一个轻小说翻译模型,可以流畅通顺地以日本轻小说的风格将日文翻译成简体中文,并联系上下文正确使用人称代词,不要擅自添加代词."
             },
             {
                 "role": "user",
-                "content": "将下面的日文文本翻译成中文：" + input_text
+                "content": "将下面的日文文本翻译成中文(注意不要擅自添加主语和代词):" + input_text
             }
         ],
-        temperature=0.1,
-        top_p=0.3,
         max_tokens=2048,
+        temperature=0.1, # 温度, 控制梯度算法的求解随机性, 越大结果越多样, 默认 1
+        top_p=0.3, # 选择候选词的范围, 越大结果越多样, 默认 1
+        frequency_penalty=0, # 高频词汇惩罚, 越大结果用词越多样, 默认 0
+        extra_query={
+            'do_sample': False, # 是否使用文本采样, 打开结果会更随机, 默认 True
+            'num_beams': 1, # 搜索束宽度, 越大越能生成一致性的结果, 但会牺牲多样性, 默认 1
+            'repetition_penalty': 0, # 重复词惩罚, 越大结果用词越多样, 默认 1
+        },
     )
 
     for choice in response.choices:
@@ -32,7 +38,6 @@ async def 翻译(input_text):
 def convert_fullwidth_to_halfwidth(input_str):
     result = ''
     for char in input_str:
-        # 如果字符是全角数字，进行替换
         if '０' <= char <= '９':
             result += chr(ord(char) - ord('０') + ord('0'))
         else:
@@ -59,12 +64,12 @@ class sakuraTranslator(CommonTranslator):
                     translation_result = await 翻译(query)
                     print('翻译完成: ' + translation_result)
                     translated_results.append(translation_result)
-                    break  # 如果成功翻译，退出重试循环
+                    break
                 except Exception as e:
-                    print(f'翻译出错，重试中... (重试次数: {retry_count + 1}/{max_retries})')
+                    print(f'翻译出错, 重试中... (重试次数: {retry_count + 1}/{max_retries})')
                     if retry_count == max_retries - 1:
-                        print(f'达到最大重试次数，放弃翻译: {query}')
+                        print(f'达到最大重试次数, 放弃翻译: {query}')
                         translated_results.append('')
-                        break  # 如果达到最大重试次数，放弃翻译，退出重试循环
+                        break
 
         return translated_results
