@@ -10,14 +10,21 @@ async def 翻译(input_text):
     response = await openai.ChatCompletion.acreate(
         model="sukinishiro",
         messages=[
-            {
-                "role": "system",
-                "content": "你是一个轻小说翻译模型,可以流畅通顺地以日本轻小说的风格将日文翻译成简体中文,并联系上下文正确使用人称代词,不要擅自添加代词."
-            },
-            {
-                "role": "user",
-                "content": "将下面的日文文本翻译成中文(注意不要擅自添加主语和代词):" + input_text
-            }
+            { "role": "system", "content": "你是一个轻小说翻译模型,可以流畅通顺地以日本轻小说的风格将日文翻译成简体中文." },
+
+            { "role": "user", "content": "注意: 你需要联系上下文,使用正确使用人称代词,不要擅自添加主语和代词.\n.下面我们开始." },
+            { "role": "assistant", "content": "了解,我会尽力遵循你的要求.翻译时我会联系上下文,使用正确使用人称代词,不擅自添加主语和代词." },
+
+            { "role": "user", "content": "ラーメンを食べます" },
+            { "role": "assistant", "content": "我吃拉面" },
+
+            { "role": "user", "content": "勉強します" },
+            { "role": "assistant", "content": "在学习" },
+
+            { "role": "user", "content": "旅行します" },
+            { "role": "assistant", "content": "要去旅行" },
+
+            { "role": "user", "content": input_text }
         ],
         max_tokens=2048,
         temperature=0.1, # 温度, 控制梯度算法的求解随机性, 越大结果越多样, 默认 1
